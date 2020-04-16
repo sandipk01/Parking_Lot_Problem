@@ -2,8 +2,12 @@ package com.bridgelabz.code;
 
 public class ParkingLotSystem {
 
-    public static void main(String[] args) {
-        System.out.println("Welcome to parking lot system");
+    private Object vehicle;
+
+    //Method for park a vehicle
+    public boolean park(Object vehicleObject) {
+        this.vehicle = vehicleObject;
+        return true;
     }
 
 }
