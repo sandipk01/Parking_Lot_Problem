@@ -11,5 +11,5 @@ public class ParkingLotSystem {
         this.vehicle = vehicleObject;
         return true;
     }
-
+    
 }
