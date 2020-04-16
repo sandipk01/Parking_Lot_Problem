@@ -1,4 +1,4 @@
-package com.bridgelabz.code;
+package com.bridgelabz.code.service;
 
 public class ParkingLotSystem {
 
@@ -6,6 +6,8 @@ public class ParkingLotSystem {
 
     //Method for park a vehicle
     public boolean park(Object vehicleObject) {
+        if (this.vehicle != null)
+            return false;
         this.vehicle = vehicleObject;
         return true;
     }
