@@ -11,5 +11,14 @@ public class ParkingLotSystem {
         this.vehicle = vehicleObject;
         return true;
     }
-    
+
+    public boolean unPark(Object vehicleObject) {
+        if (this.vehicle == null) return false;
+        if(this.vehicle==vehicleObject){
+            this.vehicle=null;
+            return true;
+        }
+        return false;
+    }
+
 }
