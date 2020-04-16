@@ -35,4 +35,10 @@ public class ParkingLotSystemTest {
         Assert.assertEquals(true, isPark);
     }
 
+    @Test
+    public void givenNotParkVehicle_WhenTryUnPark_ShouldReturnFalse() {
+        boolean isPark = parkingLotSystem.unPark(vehicle);
+        Assert.assertEquals(true, isPark);
+    }
+
 }
