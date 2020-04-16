@@ -1,6 +1,6 @@
 package com.bridgelabz.test;
 
-import com.bridgelabz.code.ParkingLotSystem;
+import com.bridgelabz.code.service.ParkingLotSystem;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -20,4 +20,12 @@ public class ParkingLotSystemTest {
         boolean isPark = parkingLotSystem.park(vehicle);
         Assert.assertEquals(true, isPark);
     }
+
+    @Test
+    public void givenVehicle_WhenAlreadyPark_ShouldReturnFalse() {
+        parkingLotSystem.park(vehicle);
+        boolean isPark = parkingLotSystem.park(new Object());
+        Assert.assertEquals(false, isPark);
+    }
+
 }
