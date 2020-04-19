@@ -4,10 +4,7 @@ import com.bridgelabz.code.exception.ParkingLotException;
 import com.bridgelabz.code.model.ParkingLot;
 import com.bridgelabz.code.model.ParkingSign;
 import com.bridgelabz.code.model.Vehicle;
-import com.bridgelabz.code.service.Driver;
-import com.bridgelabz.code.service.IDriving;
-import com.bridgelabz.code.service.ParkingLotOwner;
-import com.bridgelabz.code.service.ParkingLotSystem;
+import com.bridgelabz.code.service.*;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -20,6 +17,7 @@ public class ParkingLotSystemTest {
     private int numberOfVehicles = 1;
     private IDriving driver;
     private ParkingLotOwner parkingLotOwner;
+    private AirportSecurity airportSecurity;
 
     @Before
     public void setUp() {
@@ -27,6 +25,7 @@ public class ParkingLotSystemTest {
         parkingLotSystem = new ParkingLotSystem(3);
         driver = new Driver(parkingLotSystem);
         parkingLotOwner = new ParkingLotOwner(parkingLotSystem);
+        airportSecurity=new AirportSecurity(parkingLotSystem);
     }
 
     @Test
@@ -81,10 +80,18 @@ public class ParkingLotSystemTest {
             driver.parkAVehicle(vehicle);
             numberOfVehicles++;
         }
-        System.out.println("lot 0 " + parkingLotSystem.getVehicleCounts(0));
-        System.out.println("lot 1 " + parkingLotSystem.getVehicleCounts(1));
-        System.out.println("lot 2 " + parkingLotSystem.getVehicleCounts(2));
-        Assert.assertEquals(parkingLotOwner.parkingSign(), ParkingSign.PARKING_IS_FULL);
+        Assert.assertEquals(ParkingSign.PARKING_IS_FULL,parkingLotOwner.parkingSign());
+    }
+
+    @Test
+    public void givenParkingLotsFull_WhenAirportSecurityRedirectSecurityStaff_ThenShouldReturnTrue() throws ParkingLotException {
+        while (numberOfVehicles <= (parkingLotSystem.getNoOfParkingLots() * ParkingLot.PARKING_LOT_SIZE)) {
+            driver = new Driver(parkingLotSystem);
+            vehicle = new Vehicle("Skoda", "74t", "MH8885M");
+            driver.parkAVehicle(vehicle);
+            numberOfVehicles++;
+        }
+        Assert.assertEquals(true,airportSecurity.redirectSecurityStaff());
     }
 
 }
