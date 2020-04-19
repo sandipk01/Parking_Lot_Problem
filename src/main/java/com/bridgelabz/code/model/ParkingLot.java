@@ -5,7 +5,7 @@ import java.util.List;
 
 public class ParkingLot {
     private int parkingLotNumber;
-    public static final int PARKING_LOT_SIZE=100;
+    public static final int PARKING_LOT_SIZE = 100;
     private List<Vehicle> vehicles;
 
     public ParkingLot(int parkingLotNumber) {
