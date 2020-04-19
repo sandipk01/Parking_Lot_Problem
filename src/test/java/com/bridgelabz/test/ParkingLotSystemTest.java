@@ -1,6 +1,7 @@
 package com.bridgelabz.test;
 
 import com.bridgelabz.code.exception.ParkingLotException;
+import com.bridgelabz.code.model.ParkingLot;
 import com.bridgelabz.code.model.ParkingSign;
 import com.bridgelabz.code.model.Vehicle;
 import com.bridgelabz.code.service.Driver;
@@ -14,6 +15,7 @@ import org.junit.Test;
 
 public class ParkingLotSystemTest {
     private Vehicle vehicle;
+    private ParkingLot parkingLot;
     private ParkingLotSystem parkingLotSystem;
     private int numberOfVehicles = 1;
     private IDriving driver;
@@ -73,12 +75,15 @@ public class ParkingLotSystemTest {
 
     @Test
     public void givenVehicle_WhenParkingSpaceIsFull_ThenShouldOwnerCanPutFullSign() throws ParkingLotException {
-        while (numberOfVehicles <= (parkingLotSystem.getNoOfParkingLots() * 100) + 1) {
+        while (numberOfVehicles <= (parkingLotSystem.getNoOfParkingLots() * ParkingLot.PARKING_LOT_SIZE)) {
             driver = new Driver(parkingLotSystem);
             vehicle = new Vehicle("Skoda", "74t", "MH8885M");
             driver.parkAVehicle(vehicle);
             numberOfVehicles++;
         }
+        System.out.println("lot 0 " + parkingLotSystem.getVehicleCounts(0));
+        System.out.println("lot 1 " + parkingLotSystem.getVehicleCounts(1));
+        System.out.println("lot 2 " + parkingLotSystem.getVehicleCounts(2));
         Assert.assertEquals(parkingLotOwner.parkingSign(), ParkingSign.PARKING_IS_FULL);
     }
 

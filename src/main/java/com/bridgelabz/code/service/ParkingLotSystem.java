@@ -42,7 +42,7 @@ public class ParkingLotSystem {
     //Checking if particular parking lot is full or not
     public boolean isParkingLotFull(int parkingLotNumber) {
         return (getVehicleCounts(parkingLotNumber) == parkingLots.get(parkingLotNumber)
-                .getParkingLotSize()) ? true : false;
+                .PARKING_LOT_SIZE) ? true : false;
     }
 
     //Checking if all parking lots are full
@@ -57,18 +57,19 @@ public class ParkingLotSystem {
                 return false;
             }
         }
+        parkingLotSign = ParkingSign.PARKING_IS_FULL;
         return true;
     }
 
     //Method for park a vehicle
     public boolean parkingVehicle(Vehicle vehicle) throws ParkingLotException {
         if (isParkingLotsFull()) {
-            parkingLotSign = ParkingSign.PARKING_IS_FULL;
             return false;
         } else if (isVehicleParked(vehicle)) {
             throw new ParkingLotException("Car is Already Parked :", ParkingLotException.TypeOfException.ALREADY_PARKED);
         } else {
             parkingLots.get(currentParkingLot).getVehicles().add(vehicle);
+            isParkingLotsFull();
             System.out.println(vehicle.getBrandName() + " -- " + vehicle.getModelName() +
                     " -- " + vehicle.getNumberPlate() + " Parked At : parking slot No : " +
                     parkingLots.get(currentParkingLot).getParkingLotNumber());
