@@ -7,5 +7,5 @@ public interface IDriving {
 
     public boolean parkAVehicle(Vehicle vehicle) throws ParkingLotException;
 
-    public boolean unParkAVehicle(Vehicle vehicle);
+    public boolean unParkAVehicle(Vehicle vehicle) throws ParkingLotException;
 }

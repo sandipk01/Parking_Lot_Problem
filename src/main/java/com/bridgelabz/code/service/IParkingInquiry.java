@@ -1,8 +1,10 @@
 package com.bridgelabz.code.service;
 
+import com.bridgelabz.code.model.ParkingSign;
+
 public interface IParkingInquiry {
 
     public boolean isLotsFull();
 
-    void parkingSign();
+    public ParkingSign parkingSign();
 }

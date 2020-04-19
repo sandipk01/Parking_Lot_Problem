@@ -4,6 +4,7 @@ import com.bridgelabz.code.exception.ParkingLotException;
 import com.bridgelabz.code.model.Vehicle;
 
 public class Driver implements IDriving {
+
     private ParkingLotSystem parkingLotSystem;
 
     public Driver(ParkingLotSystem parkingLotSystem) {
@@ -16,7 +17,7 @@ public class Driver implements IDriving {
     }
 
     @Override
-    public boolean unParkAVehicle(Vehicle vehicle) {
+    public boolean unParkAVehicle(Vehicle vehicle) throws ParkingLotException {
         return parkingLotSystem.unPark(vehicle);
     }
 }

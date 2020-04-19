@@ -2,6 +2,7 @@ package com.bridgelabz.code.service;
 
 import com.bridgelabz.code.exception.ParkingLotException;
 import com.bridgelabz.code.model.ParkingLot;
+import com.bridgelabz.code.model.ParkingSign;
 import com.bridgelabz.code.model.Vehicle;
 
 import java.util.HashMap;
@@ -13,11 +14,16 @@ public class ParkingLotSystem {
     private ParkingLot parkingLot;
     private Map<Integer, ParkingLot> parkingLots;
     private int currentParkingLot;
+    private ParkingSign parkingLotSign;
 
     //Initializing the parking total parking lots
     public ParkingLotSystem(int noOfParkingLots) {
         this.noOfParkingLots = noOfParkingLots;
         generateParkingLot();
+    }
+
+    public ParkingSign getParkingLotSign() {
+        return parkingLotSign;
     }
 
     public int getNoOfParkingLots() {
@@ -57,14 +63,10 @@ public class ParkingLotSystem {
     //Method for park a vehicle
     public boolean parkingVehicle(Vehicle vehicle) throws ParkingLotException {
         if (isParkingLotsFull()) {
-            throw new ParkingLotException("Parking space is not available",
-                    ParkingLotException.TypeOfException.NO_PARKING_SPACE_EXCEPTION);
-        } else if (isVehicleParked(vehicle)) {
-            System.out.println("Already parked vehicle" + vehicle.getBrandName() + " -- " +
-                    vehicle.getModelName() + " -- " + vehicle.getNumberPlate() +
-                    " Parked At : parking slot No : "
-                    + parkingLots.get(currentParkingLot).getParkingLotNumber());
+            parkingLotSign = ParkingSign.PARKING_IS_FULL;
             return false;
+        } else if (isVehicleParked(vehicle)) {
+            throw new ParkingLotException("Car is Already Parked :", ParkingLotException.TypeOfException.ALREADY_PARKED);
         } else {
             parkingLots.get(currentParkingLot).getVehicles().add(vehicle);
             System.out.println(vehicle.getBrandName() + " -- " + vehicle.getModelName() +
@@ -87,10 +89,9 @@ public class ParkingLotSystem {
     }
 
     //Un park vehicle
-    public boolean unPark(Vehicle vehicle) {
+    public boolean unPark(Vehicle vehicle) throws ParkingLotException {
         if (!isVehicleParked(vehicle)) {
-            System.out.println(vehicle.getNumberPlate() + " Vehicle Not found");
-            return false;
+            throw new ParkingLotException("Vehicle not found", ParkingLotException.TypeOfException.VEHICLE_NO_FOUND);
         } else {
             for (Map.Entry<Integer, ParkingLot> parkingLotEntry : parkingLots.entrySet()) {
                 parkingLotEntry.getValue().getVehicles().remove(vehicle);

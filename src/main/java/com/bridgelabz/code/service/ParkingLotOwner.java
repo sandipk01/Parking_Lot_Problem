@@ -1,23 +1,13 @@
 package com.bridgelabz.code.service;
 
+import com.bridgelabz.code.model.ParkingSign;
+
 public class ParkingLotOwner implements IParkingInquiry {
-
-    public enum Sign {PARKING_IS_FULL}
-
-    private Sign sign;
 
     private ParkingLotSystem parkingLotSystem;
 
     public ParkingLotOwner(ParkingLotSystem parkingLotSystem) {
         this.parkingLotSystem = parkingLotSystem;
-    }
-
-    public Sign getSign() {
-        return sign;
-    }
-
-    public void setSign(Sign sign) {
-        this.sign = sign;
     }
 
     @Override
@@ -26,10 +16,8 @@ public class ParkingLotOwner implements IParkingInquiry {
     }
 
     @Override
-    public void parkingSign() {
-        if (isLotsFull())
-            setSign(Sign.PARKING_IS_FULL);
-        setSign(null);
+    public ParkingSign parkingSign() {
+       return parkingLotSystem.getParkingLotSign();
     }
 
 }
