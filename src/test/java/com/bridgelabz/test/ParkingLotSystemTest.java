@@ -25,7 +25,7 @@ public class ParkingLotSystemTest {
         parkingLotSystem = new ParkingLotSystem(3);
         driver = new Driver(parkingLotSystem);
         parkingLotOwner = new ParkingLotOwner(parkingLotSystem);
-        airportSecurity=new AirportSecurity(parkingLotSystem);
+        airportSecurity = new AirportSecurity(parkingLotSystem);
     }
 
     @Test
@@ -80,7 +80,7 @@ public class ParkingLotSystemTest {
             driver.parkAVehicle(vehicle);
             numberOfVehicles++;
         }
-        Assert.assertEquals(ParkingSign.PARKING_IS_FULL,parkingLotOwner.parkingSign());
+        Assert.assertEquals(ParkingSign.PARKING_IS_FULL, parkingLotOwner.parkingSign());
     }
 
     @Test
@@ -91,7 +91,21 @@ public class ParkingLotSystemTest {
             driver.parkAVehicle(vehicle);
             numberOfVehicles++;
         }
-        Assert.assertEquals(true,airportSecurity.redirectSecurityStaff());
+        Assert.assertEquals(true, airportSecurity.redirectSecurityStaff());
+    }
+
+    @Test
+    public void givenVehicle_WhenParkingLotSpaceAgain_ThenShouldReturnNull() throws ParkingLotException {
+        while (numberOfVehicles <= (parkingLotSystem.getNoOfParkingLots() * ParkingLot.PARKING_LOT_SIZE)) {
+            driver = new Driver(parkingLotSystem);
+            vehicle = new Vehicle("Skoda", "74t", "MH8885M");
+            driver.parkAVehicle(vehicle);
+            if(numberOfVehicles==165){
+                driver.unParkAVehicle(vehicle);
+            }
+            numberOfVehicles++;
+        }
+        Assert.assertEquals(null, parkingLotOwner.parkingSign());
     }
 
 }
