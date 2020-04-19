@@ -53,6 +53,7 @@ public class ParkingLotSystem {
                 currentLot++;
                 continue;
             } else {
+                parkingLotSign=null;
                 currentParkingLot = currentLot;
                 return false;
             }
@@ -97,6 +98,7 @@ public class ParkingLotSystem {
             for (Map.Entry<Integer, ParkingLot> parkingLotEntry : parkingLots.entrySet()) {
                 parkingLotEntry.getValue().getVehicles().remove(vehicle);
             }
+            isParkingLotsFull();
             System.out.println(vehicle.getBrandName() + " -- " + vehicle.getModelName() +
                     " -- " + vehicle.getNumberPlate() + " UN Parked At : parking slot No : " +
                     parkingLots.get(currentParkingLot).getParkingLotNumber());
