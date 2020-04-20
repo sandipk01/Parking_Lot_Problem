@@ -2,28 +2,46 @@ package com.bridgelabz.code.service;
 
 import com.bridgelabz.code.exception.ParkingLotException;
 import com.bridgelabz.code.model.ParkingLot;
-import com.bridgelabz.code.model.ParkingSign;
 import com.bridgelabz.code.model.Vehicle;
+import com.bridgelabz.code.observer.IObserver;
+import com.bridgelabz.code.observer.ISubject;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
-public class ParkingLotSystem {
+public class ParkingLotSystem implements ISubject {
 
     private int noOfParkingLots;
     private ParkingLot parkingLot;
     private Map<Integer, ParkingLot> parkingLots;
     private int currentParkingLot;
-    private ParkingSign parkingLotSign;
+    private List<IObserver> observerList;
 
     //Initializing the parking total parking lots
     public ParkingLotSystem(int noOfParkingLots) {
+        observerList = new ArrayList<>();
         this.noOfParkingLots = noOfParkingLots;
         generateParkingLot();
     }
 
-    public ParkingSign getParkingLotSign() {
-        return parkingLotSign;
+    @Override
+    public void attach(IObserver iObserver) {
+        observerList.add(iObserver);
+    }
+
+    @Override
+    public void detach(IObserver observer) {
+        observerList.remove(observer);
+    }
+
+    @Override
+    public void notifyObservers() {
+        for (IObserver observer : observerList) {
+            observer.sendParkingStatus(isParkingLotsFull());
+        }
+
     }
 
     public int getNoOfParkingLots() {
@@ -53,12 +71,10 @@ public class ParkingLotSystem {
                 currentLot++;
                 continue;
             } else {
-                parkingLotSign=null;
                 currentParkingLot = currentLot;
                 return false;
             }
         }
-        parkingLotSign = ParkingSign.PARKING_IS_FULL;
         return true;
     }
 
@@ -71,6 +87,8 @@ public class ParkingLotSystem {
         } else {
             parkingLots.get(currentParkingLot).getVehicles().add(vehicle);
             isParkingLotsFull();
+            notifyObservers();
+            this.notifyObservers();
             System.out.println(vehicle.getBrandName() + " -- " + vehicle.getModelName() +
                     " -- " + vehicle.getNumberPlate() + " Parked At : parking slot No : " +
                     parkingLots.get(currentParkingLot).getParkingLotNumber());
@@ -99,10 +117,12 @@ public class ParkingLotSystem {
                 parkingLotEntry.getValue().getVehicles().remove(vehicle);
             }
             isParkingLotsFull();
+            notifyObservers();
             System.out.println(vehicle.getBrandName() + " -- " + vehicle.getModelName() +
                     " -- " + vehicle.getNumberPlate() + " UN Parked At : parking slot No : " +
                     parkingLots.get(currentParkingLot).getParkingLotNumber());
         }
+
         return true;
     }
 

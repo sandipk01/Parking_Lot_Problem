@@ -1,9 +1,12 @@
 package com.bridgelabz.test;
 
+import com.bridgelabz.code.service.ParkingLotSystem;
 import com.bridgelabz.code.exception.ParkingLotException;
 import com.bridgelabz.code.model.ParkingLot;
-import com.bridgelabz.code.model.ParkingSign;
+import com.bridgelabz.code.eums.ParkingSign;
 import com.bridgelabz.code.model.Vehicle;
+import com.bridgelabz.code.observer.AirportSecurity;
+import com.bridgelabz.code.observer.ParkingLotOwner;
 import com.bridgelabz.code.service.*;
 import org.junit.Assert;
 import org.junit.Before;
@@ -24,8 +27,10 @@ public class ParkingLotSystemTest {
         vehicle = new Vehicle("BMW", "S1", "MH7845S");
         parkingLotSystem = new ParkingLotSystem(3);
         driver = new Driver(parkingLotSystem);
-        parkingLotOwner = new ParkingLotOwner(parkingLotSystem);
-        airportSecurity = new AirportSecurity(parkingLotSystem);
+        parkingLotOwner = new ParkingLotOwner();
+        airportSecurity = new AirportSecurity();
+        parkingLotSystem.attach(airportSecurity);
+        parkingLotSystem.attach(parkingLotOwner);
     }
 
     @Test
@@ -80,7 +85,7 @@ public class ParkingLotSystemTest {
             driver.parkAVehicle(vehicle);
             numberOfVehicles++;
         }
-        Assert.assertEquals(ParkingSign.PARKING_IS_FULL, parkingLotOwner.parkingSign());
+        Assert.assertEquals(ParkingSign.PARKING_IS_FULL, parkingLotOwner.getParkingSign());
     }
 
     @Test
@@ -105,7 +110,7 @@ public class ParkingLotSystemTest {
             }
             numberOfVehicles++;
         }
-        Assert.assertEquals(null, parkingLotOwner.parkingSign());
+        Assert.assertEquals(ParkingSign.PARKING_NOT_FULL, parkingLotOwner.getParkingSign());
     }
 
 }
