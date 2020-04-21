@@ -38,7 +38,7 @@ public class Driver implements IDriving {
         if (!parkingLotSystem.isVehicleParked(vehicle)) {
             throw new ParkingLotException("Vehicle not found", ParkingLotException.TypeOfException.VEHICLE_NO_FOUND);
         } else {
-            String key = parkingLotSystem.getKeyFromValue(parkingLot, vehicle);
+            String key = parkingLotSystem.searchAVehicle(parkingLot, vehicle);
             parkingLot.put(key, null);
             parkingLotSystem.isParkingLotFull();
             parkingLotSystem.notifyObservers();
