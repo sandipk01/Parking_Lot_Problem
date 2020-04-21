@@ -121,4 +121,12 @@ public class ParkingLotSystemTest {
         Assert.assertEquals(ParkingSign.PARKING_NOT_FULL, parkingLotOwner.getParkingSign());
     }
 
+    @Test
+    public void givenVehicleParked_WhenSearchVehicleToUnpark_ThenShouldReturnParkingSlot() throws ParkingLotException {
+        Vehicle bmw = new Vehicle("Bmw", "S5", "MH74558D");
+        parkingLotSystem.parkAVehicle(bmw);
+        String getParkingSlot = parkingLotSystem.searchAVehicle(bmw);
+        Assert.assertEquals("A 1",getParkingSlot);
+    }
+
 }

@@ -15,7 +15,6 @@ public class ParkingLotSystem implements ISubject {
     public static final int PARKING_LOT_SIZE = 100;
     private ParkingAttendant parkingAttendant;
 
-
     //Initializing the parking total parking lots
     public ParkingLotSystem(int noOfParkingLots) {
         observerList = new ArrayList<>();
@@ -28,6 +27,8 @@ public class ParkingLotSystem implements ISubject {
     public void attach(IObserver iObserver) {
         observerList.add(iObserver);
     }
+
+
 
     @Override
     public void detach(IObserver observer) {
@@ -64,7 +65,7 @@ public class ParkingLotSystem implements ISubject {
     }
 
     public void parkAVehicle(Vehicle vehicle) throws ParkingLotException {
-        parkingLot =parkingAttendant.parkAVehicle(vehicle, parkingLot);
+        parkingLot = parkingAttendant.parkAVehicle(vehicle, parkingLot);
     }
 
     public void unParkAVehicle(Vehicle vehicle) throws ParkingLotException {
@@ -89,9 +90,9 @@ public class ParkingLotSystem implements ISubject {
         return count;
     }
 
-    public static <T, E> T searchAVehicle(Map<T, E> map, E value) {
-        for (Map.Entry<T, E> entry : map.entrySet()) {
-            if (Objects.equals(value, entry.getValue())) {
+    public String searchAVehicle(Vehicle vehicle) {
+        for (Map.Entry<String, Vehicle> entry : parkingLot.entrySet()) {
+            if (Objects.equals(vehicle, entry.getValue())) {
                 return entry.getKey();
             }
         }

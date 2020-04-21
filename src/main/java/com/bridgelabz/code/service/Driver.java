@@ -27,8 +27,6 @@ public class Driver implements IDriving {
             parkingLot.put(key, vehicle);
             parkingLotSystem.isParkingLotFull();
             parkingLotSystem.notifyObservers();
-            System.out.println(vehicle.getBrandName() + " -- " + vehicle.getModelName() +
-                    " -- " + vehicle.getNumberPlate() + " Parked At : parking slot No : " + key);
         }
         return parkingLot;
     }
@@ -38,12 +36,10 @@ public class Driver implements IDriving {
         if (!parkingLotSystem.isVehicleParked(vehicle)) {
             throw new ParkingLotException("Vehicle not found", ParkingLotException.TypeOfException.VEHICLE_NO_FOUND);
         } else {
-            String key = parkingLotSystem.searchAVehicle(parkingLot, vehicle);
+            String key = parkingLotSystem.searchAVehicle(vehicle);
             parkingLot.put(key, null);
             parkingLotSystem.isParkingLotFull();
             parkingLotSystem.notifyObservers();
-            System.out.println(vehicle.getBrandName() + " -- " + vehicle.getModelName() +
-                    " -- " + vehicle.getNumberPlate() + " UN Parked At : parking slot No : " + key);
         }
         return parkingLot;
     }
