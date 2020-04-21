@@ -89,7 +89,7 @@ public class ParkingLotSystem implements ISubject {
         return count;
     }
 
-    public static <T, E> T getKeyFromValue(Map<T, E> map, E value) {
+    public static <T, E> T searchAVehicle(Map<T, E> map, E value) {
         for (Map.Entry<T, E> entry : map.entrySet()) {
             if (Objects.equals(value, entry.getValue())) {
                 return entry.getKey();
