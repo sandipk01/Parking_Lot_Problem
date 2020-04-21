@@ -56,6 +56,20 @@ public class ParkingLotSystemTest {
     }
 
     @Test
+    public void givenVehicleParked_WhenNoSpaceIsAvailable_ThenShouldThrowException() {
+        while (numberOfVehicles <= (parkingLotSystem.PARKING_LOT_SIZE * parkingLotSystem.getNoOfParkingLots())) {
+            try {
+                vehicle = new Vehicle("Skoda", "74t", "MH8885M");
+                parkingLotSystem.parkAVehicle(vehicle);
+                numberOfVehicles++;
+            } catch (ParkingLotException e) {
+                Assert.assertEquals(ParkingLotException.TypeOfException.NO_PARKING_SPACE, e.type);
+            }
+        }
+
+    }
+
+    @Test
     public void givenNotParkVehicle_WhenDriverTryUnPark_ThenShouldThrowException() {
         try {
             parkingLotSystem.unParkAVehicle(vehicle);
@@ -87,7 +101,6 @@ public class ParkingLotSystemTest {
     @Test
     public void givenParkingLotsFull_WhenAirportSecurityRedirectSecurityStaff_ThenShouldReturnTrue() throws ParkingLotException {
         while (numberOfVehicles <= (parkingLotSystem.PARKING_LOT_SIZE * parkingLotSystem.getNoOfParkingLots())) {
-            driver = new Driver(parkingLotSystem);
             vehicle = new Vehicle("Skoda", "74t", "MH8885M");
             parkingLotSystem.parkAVehicle(vehicle);
             numberOfVehicles++;
@@ -98,7 +111,6 @@ public class ParkingLotSystemTest {
     @Test
     public void givenVehicle_WhenParkingLotSpaceAgain_ThenShouldReturnNull() throws ParkingLotException {
         while (numberOfVehicles <= (parkingLotSystem.PARKING_LOT_SIZE * parkingLotSystem.getNoOfParkingLots())) {
-            driver = new Driver(parkingLotSystem);
             vehicle = new Vehicle("Skoda", "74t", "MH8885M");
             parkingLotSystem.parkAVehicle(vehicle);
             if (numberOfVehicles == 165) {
@@ -106,29 +118,7 @@ public class ParkingLotSystemTest {
             }
             numberOfVehicles++;
         }
-        System.out.println("lot 0 " + parkingLotSystem.getVehicleCounts());
         Assert.assertEquals(ParkingSign.PARKING_NOT_FULL, parkingLotOwner.getParkingSign());
-    }
-
-    @Test
-    public void givenVehwewwicle_WhenDriverPark_ShouldReturnTrue() throws ParkingLotException {
-        Vehicle vehicle1 = new Vehicle("Skoda", "Rapid", "MH4755D");
-        parkingLotSystem.parkAVehicle(vehicle1);
-        Vehicle vehicle2 = new Vehicle("Skoda", "Rapid", "MH4755D");
-        parkingLotSystem.parkAVehicle(vehicle2);
-        Vehicle vehicle3 = new Vehicle("Skoda", "Rapid", "MH4755D");
-        parkingLotSystem.parkAVehicle(vehicle3);
-        Vehicle vehicle4 = new Vehicle("Skoda", "Rapid", "MH4755D");
-        parkingLotSystem.parkAVehicle(vehicle4);
-        Vehicle vehicle5 = new Vehicle("Skoda", "Rapid", "MH4755D");
-        parkingLotSystem.parkAVehicle(vehicle5);
-
-        parkingLotSystem.unParkAVehicle(vehicle5);
-
-        System.out.println("lot 0 " + parkingLotSystem.getVehicleCounts());
-        parkingLotSystem.show();
-
-
     }
 
 }

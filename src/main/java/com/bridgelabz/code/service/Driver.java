@@ -2,15 +2,18 @@ package com.bridgelabz.code.service;
 
 import com.bridgelabz.code.exception.ParkingLotException;
 import com.bridgelabz.code.model.Vehicle;
+import com.bridgelabz.code.observer.ParkingLotOwner;
 
 import java.util.Map;
 
 public class Driver implements IDriving {
 
     private ParkingLotSystem parkingLotSystem;
+    private ParkingLotOwner parkingLotOwner;
 
     public Driver(ParkingLotSystem parkingLotSystem) {
         this.parkingLotSystem = parkingLotSystem;
+        this.parkingLotOwner = new ParkingLotOwner();
     }
 
     @Override
@@ -20,7 +23,7 @@ public class Driver implements IDriving {
         } else if (parkingLotSystem.isVehicleParked(vehicle)) {
             throw new ParkingLotException("Car is Already Parked :", ParkingLotException.TypeOfException.ALREADY_PARKED);
         } else {
-            String key = parkingLotSystem.getVehicleCurrentKey();
+            String key = parkingLotOwner.getDecideParkingPosition(parkingLot);
             parkingLot.put(key, vehicle);
             parkingLotSystem.isParkingLotFull();
             parkingLotSystem.notifyObservers();

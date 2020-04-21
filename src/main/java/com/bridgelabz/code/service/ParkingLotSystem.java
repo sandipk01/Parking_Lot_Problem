@@ -13,14 +13,14 @@ public class ParkingLotSystem implements ISubject {
     private Map<String, Vehicle> parkingLot;
     private List<IObserver> observerList;
     public static final int PARKING_LOT_SIZE = 100;
-    private Driver driver;
+    private ParkingAttendant parkingAttendant;
 
 
     //Initializing the parking total parking lots
     public ParkingLotSystem(int noOfParkingLots) {
         observerList = new ArrayList<>();
         this.noOfParkingLots = noOfParkingLots;
-        this.driver=new Driver(this);
+        this.parkingAttendant = new ParkingAttendant(this);
         generateParkingLots();
     }
 
@@ -64,17 +64,17 @@ public class ParkingLotSystem implements ISubject {
     }
 
     public void parkAVehicle(Vehicle vehicle) throws ParkingLotException {
-        parkingLot=driver.parkAVehicle(vehicle,parkingLot);
+        parkingLot =parkingAttendant.parkAVehicle(vehicle, parkingLot);
     }
 
     public void unParkAVehicle(Vehicle vehicle) throws ParkingLotException {
-        parkingLot=driver.unParkAVehicle(vehicle,parkingLot);
+        parkingLot = parkingAttendant.unParkAVehicle(vehicle, parkingLot);
     }
 
 
     //Check vehicle is parked or not
     public boolean isVehicleParked(Vehicle vehicle) {
-        if(parkingLot.containsValue(vehicle)){
+        if (parkingLot.containsValue(vehicle)) {
             return true;
         }
         return false;
@@ -83,21 +83,10 @@ public class ParkingLotSystem implements ISubject {
     public int getVehicleCounts() {
         int count = 0;
         for (Map.Entry<String, Vehicle> parkingLotEntry : parkingLot.entrySet()) {
-            if (parkingLotEntry.getValue()!=null)
+            if (parkingLotEntry.getValue() != null)
                 count++;
         }
         return count;
-    }
-
-    public String getVehicleCurrentKey() {
-        String key = null;
-        for (Map.Entry<String, Vehicle> entry : parkingLot.entrySet()) {
-            if (entry.getValue()==null) {
-                key = entry.getKey();
-                break;
-            }
-        }
-        return key;
     }
 
     public static <T, E> T getKeyFromValue(Map<T, E> map, E value) {
