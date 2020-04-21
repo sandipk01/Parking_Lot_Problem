@@ -1,19 +1,19 @@
 package com.bridgelabz.code.model;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 public class ParkingLot {
     private int parkingLotNumber;
     public static final int PARKING_LOT_SIZE = 100;
-    private List<Vehicle> vehicles;
+    private Map<Integer,Vehicle> vehicles;
 
     public ParkingLot(int parkingLotNumber) {
-        vehicles = new ArrayList<>();
+        vehicles = new HashMap<>();
         this.parkingLotNumber = parkingLotNumber;
     }
 
-    public List<Vehicle> getVehicles() {
+    public Map<Integer,Vehicle> getVehicles() {
         return vehicles;
     }
 

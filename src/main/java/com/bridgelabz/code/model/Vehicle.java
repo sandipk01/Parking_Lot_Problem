@@ -1,12 +1,14 @@
 package com.bridgelabz.code.model;
 
-import java.util.Objects;
-
 public class Vehicle {
 
     private String brandName;
     private String modelName;
     private String numberPlate;
+
+    public Vehicle() {
+
+    }
 
     public Vehicle(String brandName, String modelName, String numberPlate) {
         this.brandName = brandName;
