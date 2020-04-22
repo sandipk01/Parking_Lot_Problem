@@ -27,6 +27,10 @@ public class ParkingDetails {
         return parkTime;
     }
 
+    public DriverType getDriverType() {
+        return driverType;
+    }
+
     public String getUnParkTime() {
         return unParkTime;
     }
