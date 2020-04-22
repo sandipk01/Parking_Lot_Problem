@@ -14,6 +14,7 @@ public class Driver implements IDriving {
         this.parkingLotSystem = parkingLotSystem;
     }
 
+    //Method for park a vehicle
     @Override
     public Map<String, Vehicle> parkAVehicle(Vehicle vehicle, Map<String, Vehicle> parkingLot) throws ParkingLotException {
         if (parkingLotSystem.isParkingLotFull()) {
@@ -29,6 +30,7 @@ public class Driver implements IDriving {
         return parkingLot;
     }
 
+    //Method for park a unPark vehicle
     @Override
     public Map<String, Vehicle> unParkAVehicle(Vehicle vehicle, Map<String, Vehicle> parkingLot) throws ParkingLotException {
         if (!parkingLotSystem.isVehicleParked(vehicle)) {
