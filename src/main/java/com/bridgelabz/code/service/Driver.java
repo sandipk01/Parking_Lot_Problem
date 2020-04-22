@@ -2,7 +2,6 @@ package com.bridgelabz.code.service;
 
 import com.bridgelabz.code.exception.ParkingLotException;
 import com.bridgelabz.code.model.Vehicle;
-import com.bridgelabz.code.observer.ParkingLotOwner;
 
 import java.util.Map;
 
