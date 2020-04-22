@@ -1,5 +1,6 @@
 package com.bridgelabz.code.service;
 
+import com.bridgelabz.code.enums.DriverType;
 import com.bridgelabz.code.exception.ParkingLotException;
 import com.bridgelabz.code.model.ParkingDetails;
 import com.bridgelabz.code.model.Vehicle;
@@ -18,13 +19,15 @@ public class ParkingLotSystem implements ISubject {
     private ParkingAttendant parkingAttendant;
     private ParkingDetails parkingDetails;
     private Map<Vehicle, ParkingDetails> parkingDetailsMap;
+    private Driver driver;
 
     //Initializing the parking total parking lots
     public ParkingLotSystem(int noOfParkingLots) {
-        parkingDetailsMap=new LinkedHashMap<>();
+        parkingDetailsMap = new LinkedHashMap<>();
         observerList = new ArrayList<>();
         this.noOfParkingLots = noOfParkingLots;
         this.parkingAttendant = new ParkingAttendant(this);
+        this.driver=new Driver(this);
         generateParkingLots();
     }
 
@@ -69,15 +72,23 @@ public class ParkingLotSystem implements ISubject {
     }
 
     //parking a vehicle and storing details
-    public Map<Vehicle,ParkingDetails> parkAVehicle(Vehicle vehicle) throws ParkingLotException {
-        parkingLot = parkingAttendant.parkAVehicle(vehicle, parkingLot);
-        parkingDetails=new ParkingDetails(searchAVehicle(vehicle), Utils.getCurrentTime());
-        parkingDetailsMap.put(vehicle,parkingDetails);
+    public Map<Vehicle, ParkingDetails> parkAVehicle(Vehicle vehicle, DriverType driverType) throws ParkingLotException {
+        switch (driverType) {
+            case NORMAL:
+                parkingLot=driver.parkAVehicle(vehicle,parkingLot);
+                parkingDetails = new ParkingDetails(searchAVehicle(vehicle), Utils.getCurrentTime(),DriverType.NORMAL);
+                parkingDetailsMap.put(vehicle, parkingDetails);
+                break;
+            case HANDICAP:
+                parkingLot = parkingAttendant.parkAVehicle(vehicle, parkingLot);
+                parkingDetails = new ParkingDetails(searchAVehicle(vehicle), Utils.getCurrentTime(),DriverType.HANDICAP);
+                parkingDetailsMap.put(vehicle, parkingDetails);
+        }
         return parkingDetailsMap;
     }
 
     //unPark a vehicle and storing details
-    public Map<Vehicle,ParkingDetails> unParkAVehicle(Vehicle vehicle) throws ParkingLotException {
+    public Map<Vehicle, ParkingDetails> unParkAVehicle(Vehicle vehicle) throws ParkingLotException {
         parkingLot = parkingAttendant.unParkAVehicle(vehicle, parkingLot);
         parkingDetailsMap.get(vehicle).setUnParkTime(Utils.getCurrentTime());
         return parkingDetailsMap;
