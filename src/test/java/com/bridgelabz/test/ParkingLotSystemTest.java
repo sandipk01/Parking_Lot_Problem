@@ -7,6 +7,7 @@ import com.bridgelabz.code.model.Vehicle;
 import com.bridgelabz.code.observer.AirportSecurity;
 import com.bridgelabz.code.observer.ParkingLotOwner;
 import com.bridgelabz.code.service.*;
+import com.bridgelabz.code.utils.Utils;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -127,6 +128,13 @@ public class ParkingLotSystemTest {
         parkingLotSystem.parkAVehicle(bmw);
         String getParkingSlot = parkingLotSystem.searchAVehicle(bmw);
         Assert.assertEquals("A 1",getParkingSlot);
+    }
+
+    @Test
+    public void givenVehicle_WhenParkedAndUnparked_ThenShouldParkingAndUnParkingTime() throws ParkingLotException {
+        Vehicle bmw = new Vehicle("Bmw", "S5", "MH74558D");
+        Assert.assertEquals(parkingLotSystem.parkAVehicle(bmw).get(bmw).getParkTime(),Utils.getCurrentTime());
+        Assert.assertEquals(parkingLotSystem.unParkAVehicle(bmw).get(bmw).getUnParkTime(),Utils.getCurrentTime());
     }
 
 }
