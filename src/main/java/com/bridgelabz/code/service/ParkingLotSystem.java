@@ -11,10 +11,10 @@ import java.util.*;
 
 public class ParkingLotSystem implements ISubject {
 
-    private int noOfParkingLots;
+    private static int noOfParkingLots;
     private Map<String, Vehicle> parkingLot;
     private List<IObserver> observerList;
-    public static final int PARKING_LOT_SIZE = 100;
+    public static int PARKING_LOT_SIZE = 100;
     private ParkingAttendant parkingAttendant;
     private ParkingDetails parkingDetails;
     private Map<Vehicle, ParkingDetails> parkingDetailsMap;
@@ -28,9 +28,6 @@ public class ParkingLotSystem implements ISubject {
         generateParkingLots();
     }
 
-    public Map<Vehicle, ParkingDetails> getParkingDetailsMap() {
-        return parkingDetailsMap;
-    }
 
     @Override
     public void attach(IObserver iObserver) {
@@ -50,7 +47,7 @@ public class ParkingLotSystem implements ISubject {
 
     }
 
-    public int getNoOfParkingLots() {
+    public static int getNoOfParkingLots() {
         return noOfParkingLots;
     }
 
@@ -71,6 +68,7 @@ public class ParkingLotSystem implements ISubject {
         return (getVehicleCounts() == (PARKING_LOT_SIZE * noOfParkingLots)) ? true : false;
     }
 
+    //parking a vehicle and storing details
     public Map<Vehicle,ParkingDetails> parkAVehicle(Vehicle vehicle) throws ParkingLotException {
         parkingLot = parkingAttendant.parkAVehicle(vehicle, parkingLot);
         parkingDetails=new ParkingDetails(searchAVehicle(vehicle), Utils.getCurrentTime());
@@ -78,6 +76,7 @@ public class ParkingLotSystem implements ISubject {
         return parkingDetailsMap;
     }
 
+    //unPark a vehicle and storing details
     public Map<Vehicle,ParkingDetails> unParkAVehicle(Vehicle vehicle) throws ParkingLotException {
         parkingLot = parkingAttendant.unParkAVehicle(vehicle, parkingLot);
         parkingDetailsMap.get(vehicle).setUnParkTime(Utils.getCurrentTime());
@@ -85,7 +84,7 @@ public class ParkingLotSystem implements ISubject {
     }
 
 
-    //Check vehicle is parked or not
+    //Check vehicle is parked or not.
     public boolean isVehicleParked(Vehicle vehicle) {
         if (parkingLot.containsValue(vehicle)) {
             return true;
@@ -93,6 +92,7 @@ public class ParkingLotSystem implements ISubject {
         return false;
     }
 
+    //Getting total number of parked vehicles.
     public int getVehicleCounts() {
         int count = 0;
         for (Map.Entry<String, Vehicle> parkingLotEntry : parkingLot.entrySet()) {
@@ -102,6 +102,7 @@ public class ParkingLotSystem implements ISubject {
         return count;
     }
 
+    //Searching vehicle parked in which slot.
     public String searchAVehicle(Vehicle vehicle) {
         for (Map.Entry<String, Vehicle> entry : parkingLot.entrySet()) {
             if (Objects.equals(vehicle, entry.getValue())) {
