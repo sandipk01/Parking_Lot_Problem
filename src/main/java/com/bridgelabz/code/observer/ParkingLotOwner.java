@@ -1,9 +1,6 @@
 package com.bridgelabz.code.observer;
 
-import com.bridgelabz.code.eums.ParkingSign;
-import com.bridgelabz.code.model.Vehicle;
-
-import java.util.Map;
+import com.bridgelabz.code.enums.ParkingSign;
 
 public class ParkingLotOwner implements IObserver {
 
@@ -18,13 +15,4 @@ public class ParkingLotOwner implements IObserver {
         this.parkingSign = (isFull) ? ParkingSign.PARKING_IS_FULL : ParkingSign.PARKING_NOT_FULL;
     }
 
-    //Getting empty parking position.
-    public String getDecideParkingPosition(Map<String,Vehicle> parkingLot) {
-        for (Map.Entry<String, Vehicle> entry : parkingLot.entrySet()) {
-            if (entry.getValue()==null) {
-                return entry.getKey();
-            }
-        }
-        return null;
-    }
 }
