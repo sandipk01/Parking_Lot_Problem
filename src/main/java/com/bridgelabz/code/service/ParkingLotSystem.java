@@ -1,9 +1,11 @@
 package com.bridgelabz.code.service;
 
 import com.bridgelabz.code.exception.ParkingLotException;
+import com.bridgelabz.code.model.ParkingDetails;
 import com.bridgelabz.code.model.Vehicle;
 import com.bridgelabz.code.observer.IObserver;
 import com.bridgelabz.code.observer.ISubject;
+import com.bridgelabz.code.utils.Utils;
 
 import java.util.*;
 
@@ -14,21 +16,26 @@ public class ParkingLotSystem implements ISubject {
     private List<IObserver> observerList;
     public static final int PARKING_LOT_SIZE = 100;
     private ParkingAttendant parkingAttendant;
+    private ParkingDetails parkingDetails;
+    private Map<Vehicle, ParkingDetails> parkingDetailsMap;
 
     //Initializing the parking total parking lots
     public ParkingLotSystem(int noOfParkingLots) {
+        parkingDetailsMap=new LinkedHashMap<>();
         observerList = new ArrayList<>();
         this.noOfParkingLots = noOfParkingLots;
         this.parkingAttendant = new ParkingAttendant(this);
         generateParkingLots();
     }
 
+    public Map<Vehicle, ParkingDetails> getParkingDetailsMap() {
+        return parkingDetailsMap;
+    }
+
     @Override
     public void attach(IObserver iObserver) {
         observerList.add(iObserver);
     }
-
-
 
     @Override
     public void detach(IObserver observer) {
@@ -64,12 +71,17 @@ public class ParkingLotSystem implements ISubject {
         return (getVehicleCounts() == (PARKING_LOT_SIZE * noOfParkingLots)) ? true : false;
     }
 
-    public void parkAVehicle(Vehicle vehicle) throws ParkingLotException {
+    public Map<Vehicle,ParkingDetails> parkAVehicle(Vehicle vehicle) throws ParkingLotException {
         parkingLot = parkingAttendant.parkAVehicle(vehicle, parkingLot);
+        parkingDetails=new ParkingDetails(searchAVehicle(vehicle), Utils.getCurrentTime());
+        parkingDetailsMap.put(vehicle,parkingDetails);
+        return parkingDetailsMap;
     }
 
-    public void unParkAVehicle(Vehicle vehicle) throws ParkingLotException {
+    public Map<Vehicle,ParkingDetails> unParkAVehicle(Vehicle vehicle) throws ParkingLotException {
         parkingLot = parkingAttendant.unParkAVehicle(vehicle, parkingLot);
+        parkingDetailsMap.get(vehicle).setUnParkTime(Utils.getCurrentTime());
+        return parkingDetailsMap;
     }
 
 
