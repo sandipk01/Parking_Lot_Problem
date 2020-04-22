@@ -119,6 +119,8 @@ public class ParkingLotSystemTest {
             }
             numberOfVehicles++;
         }
+        System.out.println("lot 0 " + parkingLotSystem.getVehicleCounts());
+        parkingLotSystem.show();
         Assert.assertEquals(ParkingSign.PARKING_NOT_FULL, parkingLotOwner.getParkingSign());
     }
 
@@ -127,14 +129,31 @@ public class ParkingLotSystemTest {
         Vehicle bmw = new Vehicle("Bmw", "S5", "MH74558D");
         parkingLotSystem.parkAVehicle(bmw);
         String getParkingSlot = parkingLotSystem.searchAVehicle(bmw);
-        Assert.assertEquals("A 1",getParkingSlot);
+        Assert.assertEquals("A 1", getParkingSlot);
     }
 
     @Test
     public void givenVehicle_WhenParkedAndUnparked_ThenShouldParkingAndUnParkingTime() throws ParkingLotException {
         Vehicle bmw = new Vehicle("Bmw", "S5", "MH74558D");
-        Assert.assertEquals(parkingLotSystem.parkAVehicle(bmw).get(bmw).getParkTime(),Utils.getCurrentTime());
-        Assert.assertEquals(parkingLotSystem.unParkAVehicle(bmw).get(bmw).getUnParkTime(),Utils.getCurrentTime());
+        Assert.assertEquals(parkingLotSystem.parkAVehicle(bmw).get(bmw).getParkTime(), Utils.getCurrentTime());
+        Assert.assertEquals(parkingLotSystem.unParkAVehicle(bmw).get(bmw).getUnParkTime(), Utils.getCurrentTime());
+    }
+
+
+    @Test
+    public void givenVehicle_WhenParkingAttendantDistributeSpace_ShouldParkCorrectParkingLot() throws ParkingLotException {
+        Vehicle vehicle1 = new Vehicle("Skoda", "Rapid", "MH4755D");
+        parkingLotSystem.parkAVehicle(vehicle1);
+        Vehicle vehicle2 = new Vehicle("Skoda", "Rapid", "MH4755D");
+        parkingLotSystem.parkAVehicle(vehicle2);
+        Vehicle vehicle3 = new Vehicle("Skoda", "Rapid", "MH4755D");
+        parkingLotSystem.parkAVehicle(vehicle3);
+        Vehicle vehicle4 = new Vehicle("Skoda", "Rapid", "MH4755D");
+        parkingLotSystem.parkAVehicle(vehicle4);
+        Assert.assertEquals("A 1", parkingLotSystem.searchAVehicle(vehicle1));
+        Assert.assertEquals("B 1", parkingLotSystem.searchAVehicle(vehicle2));
+        Assert.assertEquals("C 1", parkingLotSystem.searchAVehicle(vehicle3));
+        Assert.assertEquals("A 2", parkingLotSystem.searchAVehicle(vehicle4));
     }
 
 }
