@@ -18,6 +18,7 @@ public class ParkingLotOwner implements IObserver {
         this.parkingSign = (isFull) ? ParkingSign.PARKING_IS_FULL : ParkingSign.PARKING_NOT_FULL;
     }
 
+    //Getting empty parking position.
     public String getDecideParkingPosition(Map<String,Vehicle> parkingLot) {
         for (Map.Entry<String, Vehicle> entry : parkingLot.entrySet()) {
             if (entry.getValue()==null) {
