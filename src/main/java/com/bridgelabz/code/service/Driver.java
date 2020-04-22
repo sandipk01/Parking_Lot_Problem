@@ -9,11 +9,9 @@ import java.util.Map;
 public class Driver implements IDriving {
 
     private ParkingLotSystem parkingLotSystem;
-    private ParkingLotOwner parkingLotOwner;
 
     public Driver(ParkingLotSystem parkingLotSystem) {
         this.parkingLotSystem = parkingLotSystem;
-        this.parkingLotOwner = new ParkingLotOwner();
     }
 
     @Override
@@ -23,7 +21,7 @@ public class Driver implements IDriving {
         } else if (parkingLotSystem.isVehicleParked(vehicle)) {
             throw new ParkingLotException("Car is Already Parked :", ParkingLotException.TypeOfException.ALREADY_PARKED);
         } else {
-            String key = parkingLotOwner.getDecideParkingPosition(parkingLot);
+            String key = ParkingAttendant.evenlyDistributeLot(parkingLot);
             parkingLot.put(key, vehicle);
             parkingLotSystem.isParkingLotFull();
             parkingLotSystem.notifyObservers();
