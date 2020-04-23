@@ -12,9 +12,14 @@ public class PoliceDepartment {
 
     private List<Object> vehicles;
     private ParkingLotSystem parkingLotSystem;
+    private boolean isSecurityIncrease;
 
     public PoliceDepartment(ParkingLotSystem parkingLotSystem) {
         this.parkingLotSystem = parkingLotSystem;
+    }
+
+    public boolean isSecurityIncrease() {
+        return isSecurityIncrease;
     }
 
     public List<Object> getParkingDetails(VehicleInquiry vehicleInquiry, Map<String, Vehicle> parkingLot, Map<Vehicle, ParkingDetails> parkingDetailsMap, String... inquiry) {
@@ -36,8 +41,18 @@ public class PoliceDepartment {
                     }
                 }
                 break;
+            case BRAND_SECURITY:
+                vehicles = new ArrayList<>();
+                for (Vehicle vehicle : parkingLot.values()) {
+                    if (vehicle != null && vehicle.getBrandName().equals(inquiry[0])) {
+                        vehicles.add(vehicle);
+                        parkingLotSystem.increaseSecurity(true);
+                    }
+                }
+                break;
         }
         return vehicles;
     }
+
 
 }
