@@ -10,6 +10,7 @@ import com.bridgelabz.code.model.Vehicle;
 import com.bridgelabz.code.observer.AirportSecurity;
 import com.bridgelabz.code.observer.ParkingLotOwner;
 
+import com.bridgelabz.code.service.PoliceDepartment;
 import com.bridgelabz.code.utils.Utils;
 import org.junit.Assert;
 import org.junit.Before;
@@ -241,6 +242,27 @@ public class ParkingLotSystemTest {
         parkingLotSystem.parkAVehicle(vehicle7, DriverType.NORMAL, VehicleType.SMALL_VEHICLE,"ABC","474558");
         List<Object> vehicles = parkingLotSystem.getParkingDetails(VehicleInquiry.COLOR_AND_BRAND, "Blue","Toyota");
         Assert.assertEquals(3, vehicles.size());
+    }
+
+    @Test
+    public void givenVehicleParked_WhenPoliceInquiryBMW_ThenShouldReturnListOfParkingDetailsAndIncreaseSecurity() throws ParkingLotException {
+        Vehicle vehicle1 = new Vehicle("Skoda", "Rapid", "MH4755D", "Yellow");
+        parkingLotSystem.parkAVehicle(vehicle1, DriverType.NORMAL, VehicleType.SMALL_VEHICLE,"ABC","474558");
+        Vehicle vehicle2 = new Vehicle("BMW", "X2", "MH4755D", "Blue");
+        parkingLotSystem.parkAVehicle(vehicle2, DriverType.HANDICAP, VehicleType.SMALL_VEHICLE,"ABC","474558");
+        Vehicle vehicle3 = new Vehicle("Skoda", "Rapid", "MH4755D", "Black");
+        parkingLotSystem.parkAVehicle(vehicle3, DriverType.NORMAL, VehicleType.LARGE_VEHICLE,"ABC","474558");
+        Vehicle vehicle4 = new Vehicle("Toyota", "X5", "MH4755D", "Blue");
+        parkingLotSystem.parkAVehicle(vehicle4, DriverType.NORMAL, VehicleType.SMALL_VEHICLE,"ABC","474558");
+        Vehicle vehicle5 = new Vehicle("Skoda", "Rapid", "MH4755D", "White");
+        parkingLotSystem.parkAVehicle(vehicle5, DriverType.NORMAL, VehicleType.SMALL_VEHICLE,"ABC","474558");
+        Vehicle vehicle6 = new Vehicle("Toyota", "X15", "MH4755D", "Blue");
+        parkingLotSystem.parkAVehicle(vehicle6, DriverType.NORMAL, VehicleType.SMALL_VEHICLE,"ABC","474558");
+        Vehicle vehicle7 = new Vehicle("BMW", "Rapid", "MH4755D", "Black");
+        parkingLotSystem.parkAVehicle(vehicle7, DriverType.NORMAL, VehicleType.SMALL_VEHICLE,"ABC","474558");
+        List<Object> vehicles = parkingLotSystem.getParkingDetails(VehicleInquiry.BRAND_SECURITY, "BMW");
+        Assert.assertEquals(2, vehicles.size());
+        Assert.assertEquals(true,parkingLotSystem.isSecurityIncrease());
     }
 
 }
