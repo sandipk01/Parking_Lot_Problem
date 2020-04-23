@@ -10,7 +10,7 @@ public class ParkingDetails {
     private String unParkTime;
     private DriverType driverType;
     private VehicleType vehicleType = VehicleType.SMALL_VEHICLE;
-    ;
+
 
     public ParkingDetails(String parkingSlot, String parkTime, DriverType driverType, VehicleType vehicleType) {
         this(parkingSlot, parkTime, driverType);
