@@ -32,7 +32,7 @@ public class ParkingLotSystem implements ISubject {
         this.noOfParkingLots = noOfParkingLots;
         this.parkingAttendant = new ParkingAttendant(this);
         this.driver = new Driver(this);
-        this.policeDepartment=new PoliceDepartment();
+        this.policeDepartment=new PoliceDepartment(this);
         generateParkingLots();
     }
 
@@ -81,16 +81,16 @@ public class ParkingLotSystem implements ISubject {
     }
 
     //parking a vehicle and storing details
-    public Map<Vehicle, ParkingDetails> parkAVehicle(Vehicle vehicle, DriverType driverType, VehicleType vehicleType) throws ParkingLotException {
+    public Map<Vehicle, ParkingDetails> parkAVehicle(Vehicle vehicle, DriverType driverType, VehicleType vehicleType,String parkingAttendantName,String numberPlat) throws ParkingLotException {
         switch (driverType) {
             case NORMAL:
                 parkingLot = driver.parkAVehicle(vehicle, parkingLot, vehicleType);
-                parkingDetails = new ParkingDetails(searchAVehicle(vehicle), Utils.getCurrentTime(), DriverType.NORMAL, vehicleType);
+                parkingDetails = new ParkingDetails(searchAVehicle(vehicle), Utils.getCurrentTime(), DriverType.NORMAL, vehicleType,numberPlat);
                 parkingDetailsMap.put(vehicle, parkingDetails);
                 break;
             case HANDICAP:
                 parkingLot = parkingAttendant.parkAVehicle(vehicle, parkingLot);
-                parkingDetails = new ParkingDetails(searchAVehicle(vehicle), Utils.getCurrentTime(), DriverType.HANDICAP);
+                parkingDetails = new ParkingDetails(searchAVehicle(vehicle), Utils.getCurrentTime(), DriverType.HANDICAP,numberPlat,parkingAttendantName);
                 parkingDetailsMap.put(vehicle, parkingDetails);
         }
         isParkingLotFull();
@@ -107,8 +107,8 @@ public class ParkingLotSystem implements ISubject {
         return parkingDetailsMap;
     }
 
-    public List<Vehicle> getParkingDetails(VehicleInquiry vehicleInquiry,String inquiry){
-        return policeDepartment.getParkingDetails(vehicleInquiry,parkingLot,inquiry);
+    public List<Object> getParkingDetails(VehicleInquiry vehicleInquiry, String... inquiry){
+        return policeDepartment.getParkingDetails(vehicleInquiry,parkingLot,parkingDetailsMap,inquiry);
     }
 
     //Check vehicle is parked or not.
