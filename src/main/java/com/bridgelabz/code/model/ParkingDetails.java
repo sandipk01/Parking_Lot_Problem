@@ -10,17 +10,20 @@ public class ParkingDetails {
     private String unParkTime;
     private DriverType driverType;
     private VehicleType vehicleType = VehicleType.SMALL_VEHICLE;
+    private String parkingAttendantName;
+    private String numberPlat;
 
-
-    public ParkingDetails(String parkingSlot, String parkTime, DriverType driverType, VehicleType vehicleType) {
-        this(parkingSlot, parkTime, driverType);
+    public ParkingDetails(String parkingSlot, String parkTime, DriverType driverType, VehicleType vehicleType,String numberPlat) {
+        this(parkingSlot, parkTime, driverType, numberPlat,null);
         this.vehicleType = vehicleType;
     }
 
-    public ParkingDetails(String parkingSlot, String parkTime, DriverType driverType) {
+    public ParkingDetails(String parkingSlot, String parkTime, DriverType driverType, String numberPlat,String parkingAttendantName) {
         this.parkingSlot = parkingSlot;
         this.parkTime = parkTime;
         this.driverType = driverType;
+        this.parkingAttendantName=parkingAttendantName;
+        this.numberPlat=numberPlat;
     }
 
     public void setUnParkTime(String unParkTime) {
