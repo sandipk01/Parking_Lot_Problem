@@ -1,6 +1,7 @@
 package com.bridgelabz.code.model;
 
 import com.bridgelabz.code.enums.DriverType;
+import com.bridgelabz.code.enums.VehicleType;
 
 public class ParkingDetails {
 
@@ -8,11 +9,18 @@ public class ParkingDetails {
     private String parkTime;
     private String unParkTime;
     private DriverType driverType;
+    private VehicleType vehicleType = VehicleType.SMALL_VEHICLE;
+    ;
 
-    public ParkingDetails(String parkingSlot, String parkTime,DriverType driverType) {
+    public ParkingDetails(String parkingSlot, String parkTime, DriverType driverType, VehicleType vehicleType) {
+        this(parkingSlot, parkTime, driverType);
+        this.vehicleType = vehicleType;
+    }
+
+    public ParkingDetails(String parkingSlot, String parkTime, DriverType driverType) {
         this.parkingSlot = parkingSlot;
         this.parkTime = parkTime;
-        this.driverType=driverType;
+        this.driverType = driverType;
     }
 
     public void setUnParkTime(String unParkTime) {
