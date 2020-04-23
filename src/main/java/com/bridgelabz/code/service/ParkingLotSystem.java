@@ -1,6 +1,7 @@
 package com.bridgelabz.code.service;
 
 import com.bridgelabz.code.enums.DriverType;
+import com.bridgelabz.code.enums.VehicleInquiry;
 import com.bridgelabz.code.enums.VehicleType;
 import com.bridgelabz.code.exception.ParkingLotException;
 import com.bridgelabz.code.model.ParkingDetails;
@@ -21,6 +22,7 @@ public class ParkingLotSystem implements ISubject {
     private ParkingDetails parkingDetails;
     private Map<Vehicle, ParkingDetails> parkingDetailsMap;
     private Driver driver;
+    private PoliceDepartment policeDepartment;
 
 
     //Initializing the parking total parking lots
@@ -30,6 +32,7 @@ public class ParkingLotSystem implements ISubject {
         this.noOfParkingLots = noOfParkingLots;
         this.parkingAttendant = new ParkingAttendant(this);
         this.driver = new Driver(this);
+        this.policeDepartment=new PoliceDepartment();
         generateParkingLots();
     }
 
@@ -56,6 +59,10 @@ public class ParkingLotSystem implements ISubject {
         return noOfParkingLots;
     }
 
+    public Map<String, Vehicle> getParkingLot() {
+        return parkingLot;
+    }
+
     //Method for creating number of parking lots
     private void generateParkingLots() {
         parkingLot = new LinkedHashMap<>();
@@ -77,8 +84,8 @@ public class ParkingLotSystem implements ISubject {
     public Map<Vehicle, ParkingDetails> parkAVehicle(Vehicle vehicle, DriverType driverType, VehicleType vehicleType) throws ParkingLotException {
         switch (driverType) {
             case NORMAL:
-                parkingLot = driver.parkAVehicle(vehicle, parkingLot,vehicleType);
-                parkingDetails = new ParkingDetails(searchAVehicle(vehicle), Utils.getCurrentTime(), DriverType.NORMAL,vehicleType);
+                parkingLot = driver.parkAVehicle(vehicle, parkingLot, vehicleType);
+                parkingDetails = new ParkingDetails(searchAVehicle(vehicle), Utils.getCurrentTime(), DriverType.NORMAL, vehicleType);
                 parkingDetailsMap.put(vehicle, parkingDetails);
                 break;
             case HANDICAP:
@@ -100,6 +107,9 @@ public class ParkingLotSystem implements ISubject {
         return parkingDetailsMap;
     }
 
+    public List<Vehicle> getParkingDetails(VehicleInquiry vehicleInquiry,String inquiry){
+        return policeDepartment.getParkingDetails(vehicleInquiry,parkingLot,inquiry);
+    }
 
     //Check vehicle is parked or not.
     public boolean isVehicleParked(Vehicle vehicle) {
