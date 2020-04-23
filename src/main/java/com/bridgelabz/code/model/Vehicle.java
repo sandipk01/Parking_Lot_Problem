@@ -5,15 +5,13 @@ public class Vehicle {
     private String brandName;
     private String modelName;
     private String numberPlate;
+    private String vehicleColor;
 
-    public Vehicle() {
-
-    }
-
-    public Vehicle(String brandName, String modelName, String numberPlate) {
+    public Vehicle(String brandName, String modelName, String numberPlate,String vehicleColor) {
         this.brandName = brandName;
         this.modelName = modelName;
         this.numberPlate = numberPlate;
+        this.vehicleColor=vehicleColor;
     }
 
     public String getBrandName() {
@@ -28,4 +26,7 @@ public class Vehicle {
         return numberPlate;
     }
 
+    public String getVehicleColor() {
+        return vehicleColor;
+    }
 }
