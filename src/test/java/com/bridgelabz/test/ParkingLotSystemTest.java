@@ -10,12 +10,14 @@ import com.bridgelabz.code.model.Vehicle;
 import com.bridgelabz.code.observer.AirportSecurity;
 import com.bridgelabz.code.observer.ParkingLotOwner;
 
+import com.bridgelabz.code.service.PoliceDepartment;
 import com.bridgelabz.code.utils.Utils;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -25,6 +27,7 @@ public class ParkingLotSystemTest {
     private int numberOfVehicles = 1;
     private ParkingLotOwner parkingLotOwner;
     private AirportSecurity airportSecurity;
+    private List<String> registeredNumberPlat;
 
     @Before
     public void setUp() {
@@ -34,6 +37,12 @@ public class ParkingLotSystemTest {
         airportSecurity = new AirportSecurity();
         parkingLotSystem.attach(airportSecurity);
         parkingLotSystem.attach(parkingLotOwner);
+        registeredNumberPlat = new ArrayList<>();
+        registeredNumberPlat.add("MH1111");
+        registeredNumberPlat.add("MH1222");
+        registeredNumberPlat.add("MH1333");
+        registeredNumberPlat.add("MH1444");
+        registeredNumberPlat.add("MH1555");
     }
 
     @Test
@@ -219,7 +228,7 @@ public class ParkingLotSystemTest {
         parkingLotSystem.parkAVehicle(vehicle6, DriverType.NORMAL, VehicleType.SMALL_VEHICLE, "ABC", "474558");
         Vehicle vehicle7 = new Vehicle("Skoda", "Rapid", "MH4755D", "Black");
         parkingLotSystem.parkAVehicle(vehicle7, DriverType.NORMAL, VehicleType.SMALL_VEHICLE, "ABC", "474558");
-        List<Object> vehicles = parkingLotSystem.getParkingDetails(VehicleInquiry.COLOR, "White");
+        List<Object> vehicles = parkingLotSystem.getParkingDetails(VehicleInquiry.COLOR, registeredNumberPlat, "White");
         Assert.assertEquals(2, vehicles.size());
     }
 
@@ -240,7 +249,7 @@ public class ParkingLotSystemTest {
         parkingLotSystem.parkAVehicle(vehicle6, DriverType.NORMAL, VehicleType.SMALL_VEHICLE, "ABC", "474558");
         Vehicle vehicle7 = new Vehicle("Skoda", "Rapid", "MH4755D", "Black");
         parkingLotSystem.parkAVehicle(vehicle7, DriverType.NORMAL, VehicleType.SMALL_VEHICLE, "ABC", "474558");
-        List<Object> vehicles = parkingLotSystem.getParkingDetails(VehicleInquiry.COLOR_AND_BRAND, "Blue", "Toyota");
+        List<Object> vehicles = parkingLotSystem.getParkingDetails(VehicleInquiry.COLOR_AND_BRAND, registeredNumberPlat, "Blue", "Toyota");
         Assert.assertEquals(3, vehicles.size());
     }
 
@@ -260,7 +269,7 @@ public class ParkingLotSystemTest {
         parkingLotSystem.parkAVehicle(vehicle6, DriverType.NORMAL, VehicleType.SMALL_VEHICLE, "ABC", "474558");
         Vehicle vehicle7 = new Vehicle("BMW", "Rapid", "MH4755D", "Black");
         parkingLotSystem.parkAVehicle(vehicle7, DriverType.NORMAL, VehicleType.SMALL_VEHICLE, "ABC", "474558");
-        List<Object> vehicles = parkingLotSystem.getParkingDetails(VehicleInquiry.BRAND_SECURITY, "BMW");
+        List<Object> vehicles = parkingLotSystem.getParkingDetails(VehicleInquiry.BRAND_SECURITY, registeredNumberPlat, "BMW");
         Assert.assertEquals(2, vehicles.size());
         Assert.assertEquals(true, parkingLotSystem.isSecurityIncrease());
     }
@@ -281,7 +290,7 @@ public class ParkingLotSystemTest {
         parkingLotSystem.parkAVehicle(vehicle6, DriverType.NORMAL, VehicleType.SMALL_VEHICLE, "ABC", "474558");
         Vehicle vehicle7 = new Vehicle("BMW", "Rapid", "MH4755D", "Black");
         parkingLotSystem.parkAVehicle(vehicle7, DriverType.NORMAL, VehicleType.SMALL_VEHICLE, "ABC", "474558");
-        List<Object> vehicles = parkingLotSystem.getParkingDetails(VehicleInquiry.TIME, Utils.getCurrentTimeInHours(), Utils.getCurrentTimeInMinutes(), "30");
+        List<Object> vehicles = parkingLotSystem.getParkingDetails(VehicleInquiry.TIME, registeredNumberPlat, Utils.getCurrentTimeInHours(), Utils.getCurrentTimeInMinutes(), "30");
         Assert.assertEquals(7, vehicles.size());
     }
 
@@ -308,9 +317,30 @@ public class ParkingLotSystemTest {
             parkingLotSystem.parkAVehicle(vehicle2, DriverType.NORMAL, VehicleType.SMALL_VEHICLE, "ABC", "474558");
         }
 
-        List<Object> vehicles = parkingLotSystem.getParkingDetails(VehicleInquiry.VEHICLE_AND_DRIVER, "B", "D");
+        List<Object> vehicles = parkingLotSystem.getParkingDetails(VehicleInquiry.VEHICLE_AND_DRIVER, registeredNumberPlat, "B", "D");
         Assert.assertEquals(33, vehicles.size());
 
+    }
+
+
+    @Test
+    public void givenVehicleParked_WhenPoliceInquiryNumberPlate_ThenShouldReturnFraudulentVehicleLocation() throws ParkingLotException, ParseException {
+        Vehicle vehicle1 = new Vehicle("Skoda", "Rapid", "MH1111", "Yellow");
+        parkingLotSystem.parkAVehicle(vehicle1, DriverType.HANDICAP, VehicleType.SMALL_VEHICLE, "ABC", "474558");
+        Vehicle vehicle2 = new Vehicle("BMW", "X2", "MH1222", "Blue");
+        parkingLotSystem.parkAVehicle(vehicle2, DriverType.HANDICAP, VehicleType.SMALL_VEHICLE, "ABC", "474558");
+        Vehicle vehicle3 = new Vehicle("Skoda", "Rapid", "MH5225", "Black");
+        parkingLotSystem.parkAVehicle(vehicle3, DriverType.HANDICAP, VehicleType.LARGE_VEHICLE, "ABC", "474558");
+        Vehicle vehicle4 = new Vehicle("Toyota", "X5", "MH1444", "Blue");
+        parkingLotSystem.parkAVehicle(vehicle4, DriverType.HANDICAP, VehicleType.SMALL_VEHICLE, "ABC", "474558");
+        Vehicle vehicle5 = new Vehicle("Skoda", "Rapid", "MH1555", "White");
+        parkingLotSystem.parkAVehicle(vehicle5, DriverType.HANDICAP, VehicleType.SMALL_VEHICLE, "ABC", "474558");
+        Vehicle vehicle6 = new Vehicle("Toyota", "X15", "MH1333", "Blue");
+        parkingLotSystem.parkAVehicle(vehicle6, DriverType.HANDICAP, VehicleType.SMALL_VEHICLE, "ABC", "474558");
+
+        List<Object> vehicles = parkingLotSystem.getParkingDetails(VehicleInquiry.NUMBER_PLAT, registeredNumberPlat);
+        Assert.assertEquals(1, vehicles.size());
+        Assert.assertEquals(true, vehicles.contains("A 3"));
     }
 
 }
