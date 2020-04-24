@@ -10,6 +10,7 @@ import com.bridgelabz.code.observer.IObserver;
 import com.bridgelabz.code.observer.ISubject;
 import com.bridgelabz.code.utils.Utils;
 
+import java.text.ParseException;
 import java.util.*;
 
 public class ParkingLotSystem implements ISubject {
@@ -116,7 +117,7 @@ public class ParkingLotSystem implements ISubject {
             this.isSecurityIncrease = true;
     }
 
-    public List<Object> getParkingDetails(VehicleInquiry vehicleInquiry, String... inquiry) {
+    public List<Object> getParkingDetails(VehicleInquiry vehicleInquiry, String... inquiry) throws ParseException {
         return policeDepartment.getParkingDetails(vehicleInquiry, parkingLot, parkingDetailsMap, inquiry);
     }
 
