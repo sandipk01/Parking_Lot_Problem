@@ -1,5 +1,5 @@
 package com.bridgelabz.code.enums;
 
 public enum VehicleInquiry {
-    COLOR,COLOR_AND_BRAND,BRAND_SECURITY;
+    COLOR,COLOR_AND_BRAND,BRAND_SECURITY,TIME;
 }
