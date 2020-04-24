@@ -18,7 +18,7 @@ public class ParkingLotSystem implements ISubject {
     private static int noOfParkingLots;
     private Map<String, Vehicle> parkingLot;
     private List<IObserver> observerList;
-    public static int PARKING_LOT_SIZE = 100;
+    private int parkingLotSize;
     private ParkingAttendant parkingAttendant;
     private ParkingDetails parkingDetails;
     private Map<Vehicle, ParkingDetails> parkingDetailsMap;
@@ -27,8 +27,9 @@ public class ParkingLotSystem implements ISubject {
     private boolean isSecurityIncrease;
 
     //Initializing the parking total parking lots
-    public ParkingLotSystem(int noOfParkingLots) {
+    public ParkingLotSystem(int noOfParkingLots,int parkingLotSize) {
         parkingDetailsMap = new LinkedHashMap<>();
+        this.parkingLotSize=parkingLotSize;
         observerList = new ArrayList<>();
         this.noOfParkingLots = noOfParkingLots;
         this.parkingAttendant = new ParkingAttendant(this);
@@ -68,21 +69,27 @@ public class ParkingLotSystem implements ISubject {
         return parkingLot;
     }
 
+    public int getParkingLotSize() {
+        return parkingLotSize;
+    }
+
     //Method for creating number of parking lots
     private void generateParkingLots() {
         parkingLot = new LinkedHashMap<>();
         int parkingSection = 65;
         for (int parkingLotNumber = 1; parkingLotNumber <= noOfParkingLots; parkingLotNumber++) {
-            for (int parkingVehicleNumber = 1; parkingVehicleNumber <= PARKING_LOT_SIZE; parkingVehicleNumber++) {
+            for (int parkingVehicleNumber = 1; parkingVehicleNumber <= parkingLotSize; parkingVehicleNumber++) {
                 parkingLot.put((char) parkingSection + " " + parkingVehicleNumber, null);
             }
             parkingSection++;
         }
     }
 
+
+
     //Checking if particular parking lot is full or not
     public boolean isParkingLotFull() {
-        return (getVehicleCounts() == (PARKING_LOT_SIZE * noOfParkingLots)) ? true : false;
+        return (getVehicleCounts() == (parkingLotSize * noOfParkingLots)) ? true : false;
     }
 
     //parking a vehicle and storing details
