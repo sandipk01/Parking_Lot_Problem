@@ -86,7 +86,7 @@ public class ParkingAttendant {
             if (entry.getKey().contains(lot) && entry.getValue() == null)
                 counter++;
         }
-        if (counter >= ParkingLotSystem.PARKING_LOT_SIZE)
+        if (counter >= parkingLotSystem.getParkingLotSize())
             return true;
         return false;
     }
