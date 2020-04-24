@@ -23,7 +23,7 @@ public class PoliceDepartment {
     }
 
 
-    public List<Object> getParkingDetails(VehicleInquiry vehicleInquiry, Map<String, Vehicle> parkingLot, Map<Vehicle, ParkingDetails> parkingDetailsMap, String... inquiry) throws ParseException {
+    public List<Object> getParkingDetails(VehicleInquiry vehicleInquiry,List<String> registeredNumbers, Map<String, Vehicle> parkingLot, Map<Vehicle, ParkingDetails> parkingDetailsMap, String... inquiry) throws ParseException {
 
         switch (vehicleInquiry) {
             case COLOR:
@@ -70,7 +70,14 @@ public class PoliceDepartment {
                         }
                     }
                 }
-
+                break;
+            case NUMBER_PLAT:
+                vehicles=new ArrayList<>();
+                for (Map.Entry<String, Vehicle> entry : parkingLot.entrySet()) {
+                   if(entry.getValue()!=null && !registeredNumbers.contains(entry.getValue().getNumberPlate())){
+                       vehicles.add(parkingLotSystem.searchAVehicle(entry.getValue()));
+                   }
+                }
         }
         return vehicles;
     }
