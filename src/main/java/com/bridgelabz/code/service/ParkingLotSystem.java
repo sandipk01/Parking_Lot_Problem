@@ -27,9 +27,9 @@ public class ParkingLotSystem implements ISubject {
     private boolean isSecurityIncrease;
 
     //Initializing the parking total parking lots
-    public ParkingLotSystem(int noOfParkingLots,int parkingLotSize) {
+    public ParkingLotSystem(int noOfParkingLots, int parkingLotSize) {
         parkingDetailsMap = new LinkedHashMap<>();
-        this.parkingLotSize=parkingLotSize;
+        this.parkingLotSize = parkingLotSize;
         observerList = new ArrayList<>();
         this.noOfParkingLots = noOfParkingLots;
         this.parkingAttendant = new ParkingAttendant(this);
@@ -86,7 +86,6 @@ public class ParkingLotSystem implements ISubject {
     }
 
 
-
     //Checking if particular parking lot is full or not
     public boolean isParkingLotFull() {
         return (getVehicleCounts() == (parkingLotSize * noOfParkingLots)) ? true : false;
@@ -124,8 +123,8 @@ public class ParkingLotSystem implements ISubject {
             this.isSecurityIncrease = true;
     }
 
-    public List<Object> getParkingDetails(VehicleInquiry vehicleInquiry, String... inquiry) throws ParseException {
-        return policeDepartment.getParkingDetails(vehicleInquiry, parkingLot, parkingDetailsMap, inquiry);
+    public List<Object> getParkingDetails(VehicleInquiry vehicleInquiry, List<String> registeredNumbers, String... inquiry) throws ParseException {
+        return policeDepartment.getParkingDetails(vehicleInquiry, registeredNumbers, parkingLot, parkingDetailsMap, inquiry);
     }
 
     //Check vehicle is parked or not.
@@ -156,10 +155,5 @@ public class ParkingLotSystem implements ISubject {
         return null;
     }
 
-    public void show() {
-        for (Map.Entry<String, Vehicle> entry : parkingLot.entrySet()) {
-            System.out.println(entry.getKey() + " = " + entry.getValue());
-        }
-    }
 
 }
