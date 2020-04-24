@@ -1,14 +1,14 @@
 package com.bridgelabz.code.service;
 
+import com.bridgelabz.code.enums.DriverType;
 import com.bridgelabz.code.enums.VehicleInquiry;
+import com.bridgelabz.code.enums.VehicleType;
 import com.bridgelabz.code.model.ParkingDetails;
 import com.bridgelabz.code.model.Vehicle;
 import com.bridgelabz.code.utils.Utils;
 
-import javax.rmi.CORBA.Util;
+
 import java.text.ParseException;
-import java.time.Duration;
-import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -54,12 +54,23 @@ public class PoliceDepartment {
             case TIME:
                 vehicles = new ArrayList<>();
                 for (Map.Entry<Vehicle, ParkingDetails> entry : parkingDetailsMap.entrySet()) {
-                    String currentTime = Utils.getIncreaseTime(Integer.parseInt(inquiry[0]),Integer.parseInt(inquiry[1]),Integer.parseInt(inquiry[2]));
+                    String currentTime = Utils.getIncreaseTime(Integer.parseInt(inquiry[0]), Integer.parseInt(inquiry[1]), Integer.parseInt(inquiry[2]));
                     String parkingTime = entry.getValue().getParkTime();
-                    if (Utils.getDifferenceInMinutes(parkingTime,currentTime) >= Integer.parseInt(inquiry[2]) && Utils.getDifferenceInMinutes(parkingTime, currentTime) >= 0) {
+                    if (Utils.getDifferenceInMinutes(parkingTime, currentTime) >= Integer.parseInt(inquiry[2]) && Utils.getDifferenceInMinutes(parkingTime, currentTime) >= 0) {
                         vehicles.add(entry.getKey());
                     }
                 }
+                break;
+            case VEHICLE_AND_DRIVER:
+                vehicles = new ArrayList<>();
+                for (Map.Entry<Vehicle, ParkingDetails> entry : parkingDetailsMap.entrySet()) {
+                    if (entry.getValue().getParkingSlot().contains(inquiry[0]) || entry.getValue().getParkingSlot().contains(inquiry[1])) {
+                        if (entry.getValue().getDriverType().equals(DriverType.HANDICAP) && entry.getValue().getVehicleType().equals(VehicleType.SMALL_VEHICLE)) {
+                            vehicles.add(entry.getKey());
+                        }
+                    }
+                }
+
         }
         return vehicles;
     }
