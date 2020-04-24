@@ -45,4 +45,8 @@ public class ParkingDetails {
     public String getUnParkTime() {
         return unParkTime;
     }
+
+    public VehicleType getVehicleType() {
+        return vehicleType;
+    }
 }
